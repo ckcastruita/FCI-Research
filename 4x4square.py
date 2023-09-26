@@ -77,8 +77,10 @@ def chern(num):
 
             E1, V = H.eigsh(k=1, which='SA')
 
+            # append groundstate to list
             array[i].append(np.ravel(V))
 
+    # take inner product of groundstates in a loop around plaquette
     for i in range(0, num):
         for j in range(0, num):
             U1 = np.conjugate(array[i][j]).dot(array[i][j + 1]) / linalg.norm(
