@@ -91,3 +91,4 @@ def chern(num):
 
     chern_number /= (2 * pi * 1j)
     print("Chern number = ", round(np.real(chern_number), 2))
+chern(3)    
