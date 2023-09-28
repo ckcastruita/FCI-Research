@@ -16,6 +16,7 @@ Ly = 4 # sites in y direction
 N_2d = Lx*Ly # number of sites for spin 1
 t1 = np.sqrt(2) # NN hopping term
 t2 = 1.0 # NNN hoppping term
+U = 2.0 # onsite interaction
 
 n = np.arange(N_2d) # site indices
 x = n%Lx # x positions
@@ -27,7 +28,7 @@ a = [e**(+s[i]*(pi/4)*k) for i in range(N_2d)] # + flux phase
 b = [e**(-s[i]*(pi/4)*k) for i in range(N_2d)] # - flux phase
 
 # setting up bases
-basis_2d = spinless_fermion_basis_general(N_2d)
+basis_2d = spinless_fermion_basis_general(N_2d) # change to (N_2d, Nf=N_2d/2) to get 1/2 filling 
 
 # define chern number calculation
 
@@ -67,15 +68,19 @@ def chern(num):
 
             NNN = NNN_NE + NNN_SE + NNN_SW + NNN_NW
 
-            static = [["+-", NN + NNN]]
+            interaction=[[U,i,T_x[i]] for i in range(N_2d)] + [[U,i,T_y[i]] for i in range(N_2d)]
+
+            static = [["+-", NN + NNN]] # add ["nn", interaction] to static to add interactions
             # build hamiltonian
             H = hamiltonian(static, [], basis=basis_2d, dtype=np.complex128)
             # diagonalise H
 
             E1, V = H.eigsh(k=1, which='SA')
 
+            # append groundstate to list
             array[i].append(np.ravel(V))
 
+    # take inner product of groundstates in a loop around plaquette
     for i in range(0, num):
         for j in range(0, num):
             U1 = np.conjugate(array[i][j]).dot(array[i][j + 1]) / linalg.norm(
@@ -91,3 +96,4 @@ def chern(num):
 
     chern_number /= (2 * pi * 1j)
     print("Chern number = ", round(np.real(chern_number), 2))
+chern(3)    
