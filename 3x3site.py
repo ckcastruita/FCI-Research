@@ -36,51 +36,13 @@ H=hamiltonian(static,[],basis=basis_2d,dtype=np.float64)
 # diagonalise H
 E=H.eigvalsh()
 #
-# print site list
-print(s)
-#
-print("potential list")
-print(potential)
-# print translation operators
-print("Translation operator in x direciton =")
-print(T_x)
-print("Translation operator in y direction =")
-print(T_y)
-
-print("T_x part of the left hopping =")
-print([[-J,i,T_x[i]] for i in range(N_2d)])
-print("T_y part of the left hopping =")
-print([[-J,i,T_y[i]] for i in range(N_2d)])
-print("T_x part of the right hopping =")
-print([[+J,i,T_x[i]] for i in range(N_2d)])
-print("T_y part of the right hopping =")
-print([[+J,i,T_y[i]] for i in range(N_2d)])
-
-# print hoppings
-print("Hopping left =")
-print(hopping_left)
-print("Hopping right =")
-print(hopping_right)
-
-# print static
-print("static =")
-print(static)
-
-# print Hamiltonian in sparse form 
-print("H =")
-print(H)
-
-# convert Hamiltonian to matrix form
-dense_H = H.toarray()
-print("Matrix Hamiltonian =")
-print(dense_H)
 # print diagonalized hamiltonian
 print("Diagonalized Hamiltonian =")
-print(np.round(E))
+print(np.round(E, decimals=2))
 
 # plot eigenvalues
-#plt.plot(range(len(E)), E, 'bo')
-#plt.xlabel('Eigenstate index')
-#plt.ylabel('Eigenvalue')
-#plt.title('Eigenvalue Spectrum')
-#plt.show()
+plt.plot(range(len(E)), E, 'bo')
+plt.xlabel('Eigenstate index')
+plt.ylabel('Eigenvalue')
+plt.title('Eigenvalue Spectrum')
+plt.show()
